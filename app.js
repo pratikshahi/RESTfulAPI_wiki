@@ -18,6 +18,7 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/Restful_wikiDB", {
   useUnifiedTopology: true,
+  useNewUrlParser: true,
 });
 
 const articleSchema = {
@@ -27,11 +28,20 @@ const articleSchema = {
 
 const Article = mongoose.model("Article", articleSchema);
 
-const articletest = new Article({
-  title: "test title",
-  content: "test content",
+app.get("/articles", function (req, res) {
+  Article.find(function (err, foundItem) {
+    if (!err) {
+      res.send(foundItem);
+    } else {
+      res.send(err);
+    }
+  });
 });
-articletest.save();
+
+app.post("/articles", function (req, res) {
+  console.log(req.body.title);
+  console.log(req.body.content);
+});
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
