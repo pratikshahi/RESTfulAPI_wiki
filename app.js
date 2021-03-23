@@ -28,6 +28,7 @@ const articleSchema = {
 
 const Article = mongoose.model("Article", articleSchema);
 
+//request targeting all article
 app
   .route("/articles")
   .get(function (req, res) {
@@ -60,6 +61,24 @@ app
         res.send(err);
       }
     });
+  });
+
+//request targeting specific article
+
+app
+  .route("/articles/:articleTitle")
+
+  .get(function (req, res) {
+    Article.findOne(
+      { title: req.params.articleTitle },
+      function (err, founditem) {
+        if (founditem) {
+          res.send(founditem);
+        } else {
+          res.send("no article found");
+        }
+      }
+    );
   });
 
 app.listen(3000, function () {
