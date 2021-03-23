@@ -39,8 +39,17 @@ app.get("/articles", function (req, res) {
 });
 
 app.post("/articles", function (req, res) {
-  console.log(req.body.title);
-  console.log(req.body.content);
+  const newArticle = new Article({
+    title: req.body.title,
+    content: req.body.content,
+  });
+  newArticle.save(function (err) {
+    if (!err) {
+      console.log("SUcessfully Saved New Article");
+    } else {
+      console.log(err);
+    }
+  });
 });
 
 app.listen(3000, function () {
