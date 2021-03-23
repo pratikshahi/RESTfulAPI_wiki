@@ -104,6 +104,15 @@ app
         }
       }
     );
+  })
+  .delete(function (req, res) {
+    Article.deleteOne({ title: req.params.articleTitle }, function (err) {
+      if (!err) {
+        res.send("Deleted sucessfully");
+      } else {
+        res.send("Error occcured while deleting");
+      }
+    });
   });
 
 app.listen(3000, function () {
